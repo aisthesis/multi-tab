@@ -1,0 +1,20 @@
+{
+    "name": "Multi-tab",
+
+    "description": "Open a given set of URLs in multiple tabs",
+
+    "manifest_version": 2,
+
+    "version": "0.1",
+
+    "browser_action": {
+        "default_icon": "yahoo-16.png"
+    },
+
+    "permissions": ["tabs"],
+
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    }
+}
