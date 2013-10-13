@@ -12,3 +12,13 @@ chrome.browserAction.onClicked.addListener(function() {
         chrome.tabs.create({url: _url});
     }
 });
+
+chrome.commands.onCommand.addListener(function(command) {
+    if (command == "edit_urls") {
+        alert('edit!');
+    }
+});
+
+chrome.omnibox.onInputChanged.addListener(function(text) {
+    alert('Omnibox: ' + text);    
+});
