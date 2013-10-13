@@ -11,10 +11,6 @@
         "default_icon": "yahoo-16.png"
     },
 
-    "omnibox": {
-        "keyword": "multi-tab-edit"
-    },
-
     "icons": {
         "16": "yahoo-16.png"
     },
@@ -24,12 +20,5 @@
     "background": {
         "scripts": ["background.js"],
         "persistent": false
-    },
-
-    "commands": {
-        "edit_urls": {
-            "suggested_key": { "default": "Ctrl+Shift+E" },
-            "description": "Edit URLs to open"
-        }
     }
 }
