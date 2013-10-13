@@ -8,11 +8,12 @@
     "version": "0.1",
 
     "browser_action": {
-        "default_icon": "yahoo-16.png"
+        "default_icon": "multi-tab-16.png"
     },
 
     "icons": {
-        "16": "yahoo-16.png"
+        "16": "multi-tab-16.png",
+        "128": "multi-tab-128.png"
     },
 
     "permissions": ["tabs"],
