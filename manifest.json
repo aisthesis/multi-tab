@@ -19,7 +19,7 @@
     "permissions": ["tabs"],
 
     "background": {
-        "scripts": ["background.js"],
+        "scripts": ["scripts/background.js"],
         "persistent": false
     },
 
