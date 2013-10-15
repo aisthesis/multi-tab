@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Bootstrap -->
         <link href="lib/bootstrap-3.0.0/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="styles/custom.css" rel="stylesheet" media="screen">
     </head>
     <body>
         <div class="container">
@@ -14,13 +15,46 @@
             </div>
             <h3>Current URLs</h3>
             <p>Drag and drop to modify order.</p>
-            <ul>
-                <li>url1</li>
-                <li>url2</li>
-                <li>url3</li>
-            </ul>
+            <table class="table table-striped">
+                <thead>
+                    <th>&nbsp;</th>
+                    <th>Description</th>
+                    <th>URL</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td class="description">S&P 500 1-yr. chart</td>
+                        <td class="breakable-word">http://finance.yahoo.com/echarts?s=%5EGSPC+Interactive#symbol=%5Egspc;range=1y;compare=;indicator=sma+volume+rsi;charttype=ohlc;crosshair=cross;ohlcvalues=1;logscale=on;source=undefined;</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td class="description">SPWR 1-yr. chart</td>
+                        <td class="breakable-word">http://finance.yahoo.com/echarts?s=SPWR+Interactive#symbol=spwr;range=1y;compare=;indicator=sma+volume+rsi;charttype=ohlc;crosshair=cross;ohlcvalues=1;logscale=on;source=undefined;</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>
+                <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-remove"></span> Delete selected</button>
+            </p>
             <hr>
             <h3>Add URL</h3>
+            <div class="row">
+                <div class="col-md-3">
+                    <p>Description</p>
+                    <input type="text" class="form-control" placeholder="Description">
+                </div>
+                <div class="col-md-9">
+                    <p>URL</p>
+                    <input type="text" class="form-control" placeholder="https://www.google.com/">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">&nbsp;</div>
+            </div>
+            <p>
+                <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Save</button>
+            </p>
         </div>
 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

@@ -1,0 +1,7 @@
+.breakable-word {
+    word-break: break-all;
+}
+
+.description {
+    min-width: 16em;
+}
