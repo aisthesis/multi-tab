@@ -1,7 +1,7 @@
 {
     "name": "Multi-tab",
 
-    "description": "Open a given set of URLs in multiple tabs",
+    "description": "Open multiple URLs with one click",
 
     "manifest_version": 2,
 
