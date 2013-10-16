@@ -23,12 +23,12 @@
                         <th>URL</th>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr data-order="0">
                             <td><input type="checkbox"></td>
                             <td class="description">S&P 500 1-yr. chart</td>
                             <td class="breakable-word">http://finance.yahoo.com/echarts?s=%5EGSPC+Interactive#symbol=%5Egspc;range=1y;compare=;indicator=sma+volume+rsi;charttype=ohlc;crosshair=cross;ohlcvalues=1;logscale=on;source=undefined;</td>
                         </tr>
-                        <tr>
+                        <tr data-order="1">
                             <td><input type="checkbox"></td>
                             <td class="description">SPWR 1-yr. chart</td>
                             <td class="breakable-word">http://finance.yahoo.com/echarts?s=SPWR+Interactive#symbol=spwr;range=1y;compare=;indicator=sma+volume+rsi;charttype=ohlc;crosshair=cross;ohlcvalues=1;logscale=on;source=undefined;</td>
@@ -45,18 +45,18 @@
                 <div class="row">
                     <div class="col-md-3">
                         <p>Description</p>
-                        <input id="description-input" type="text" class="form-control" placeholder="Description">
+                        <input id="description-input" type="text" class="form-control">
                     </div>
                     <div class="col-md-9">
                         <p>URL</p>
-                        <input id="url-input" type="text" class="form-control" placeholder="https://www.google.com/">
+                        <input id="url-input" type="text" class="form-control">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">&nbsp;</div>
                 </div>
                 <p>
-                    <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Save</button>
+                    <button id="save-url-button" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Save</button>
                 </p>
             </div>
         </div>
@@ -69,5 +69,6 @@
         <script src="lib/underscore-1.5.2.min.js"></script>
         <script src="lib/backbone-1.1.0.min.js"></script>
         <script src="scripts/insert-url-view.js"></script>
+        <script src="scripts/options.js"></script>
     </body>
 </html>
