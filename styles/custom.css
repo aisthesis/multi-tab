@@ -3,5 +3,13 @@
 }
 
 .description {
-    min-width: 16em;
+    width: 16em;
+}
+
+.delete-checkbox {
+    width: 3em;
+}
+
+.hide-if-empty, .show-if-empty {
+    display: none;
 }

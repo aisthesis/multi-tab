@@ -64,6 +64,7 @@ multiTab.InsertUrlView = Backbone.View.extend({
                 store = db.createObjectStore(_this.URL_TABLE, {keyPath: "order"});
 
             store.put({order: 0, description: _description, url: _url});
+            db.close();
             console.log('url saved');
         };
 

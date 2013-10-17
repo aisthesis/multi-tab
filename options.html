@@ -15,35 +15,26 @@
             </div>
             <div id="update-and-delete-urls">
                 <h3>Current URLs</h3>
-                <div class="alert alert-info">Drag and drop to modify order.</div>
-                <table class="table table-striped">
+                <div class="alert alert-info hide-if-empty">Drag and drop to modify order.</div>
+                <div class="alert alert-warning show-if-empty">No URLs saved. Add URLs using the input fields below.</div>
+                <table class="table table-striped hide-if-empty">
                     <thead>
                         <th>&nbsp;</th>
                         <th>Description</th>
                         <th>URL</th>
                     </thead>
                     <tbody id="url-tbody">
-                        <tr data-order="0">
-                            <td><input type="checkbox"></td>
-                            <td class="description">S&P 500 1-yr. chart</td>
-                            <td class="breakable-word">http://finance.yahoo.com/echarts?s=%5EGSPC+Interactive#symbol=%5Egspc;range=1y;compare=;indicator=sma+volume+rsi;charttype=ohlc;crosshair=cross;ohlcvalues=1;logscale=on;source=undefined;</td>
-                        </tr>
-                        <tr data-order="1">
-                            <td><input type="checkbox"></td>
-                            <td class="description">SPWR 1-yr. chart</td>
-                            <td class="breakable-word">http://finance.yahoo.com/echarts?s=SPWR+Interactive#symbol=spwr;range=1y;compare=;indicator=sma+volume+rsi;charttype=ohlc;crosshair=cross;ohlcvalues=1;logscale=on;source=undefined;</td>
-                        </tr>
-                        <script id="url-record-template" type="text/template">
-                            <tr data-order="<%= order %>">
-                                <td><input type="checkbox"></td>
-                                <td class="description"><%= description %></td>
-                                <td class="breakable-word"><%= url %></td>
-                            </tr>
-                        </script>
                     </tbody>
+                    <script id="url-record-template" type="text/template">
+                        <tr data-order="<%= order %>">
+                            <td class="delete-checkbox"><input type="checkbox"></td>
+                            <td class="description"><%= description %></td>
+                            <td class="breakable-word"><%= url %></td>
+                        </tr>
+                    </script>
                 </table>
                 <p>
-                    <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-remove"></span> Delete selected</button>
+                    <button type="button" class="btn btn-primary hide-if-empty" disabled><span class="glyphicon glyphicon-remove"></span> Delete selected</button>
                 </p>
             </div>
             <hr>
