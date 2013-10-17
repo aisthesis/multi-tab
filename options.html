@@ -27,14 +27,14 @@
                     </tbody>
                     <script id="url-record-template" type="text/template">
                         <tr data-order="<%= order %>">
-                            <td class="delete-checkbox"><input type="checkbox"></td>
+                            <td class="delete-checkbox-container"><input type="checkbox" name="to-delete"></td>
                             <td class="description"><%= description %></td>
                             <td class="breakable-word"><%= url %></td>
                         </tr>
                     </script>
                 </table>
                 <p>
-                    <button type="button" class="btn btn-primary hide-if-empty" disabled><span class="glyphicon glyphicon-remove"></span> Delete selected</button>
+                    <button id="delete-selected-button" type="button" class="btn btn-primary hide-if-empty" disabled><span class="glyphicon glyphicon-remove"></span> Delete selected</button>
                 </p>
             </div>
             <hr>

@@ -1,6 +1,11 @@
 var multiTab = multiTab || {};
 
 multiTab.UpdateUrlView = Backbone.View.extend({
+    events: {
+        "change input[name=to-delete]": "handleDeleteCheckChange",
+        "click #delete-selected-button": "handleDeleteSelected"
+    },
+
     initialize: function(options) {
         var _this = this;
 
@@ -8,7 +13,9 @@ multiTab.UpdateUrlView = Backbone.View.extend({
             'render',
             'initializeConstants',
             'appendDbData',
-            'showEmptyDbWarning'
+            'showEmptyDbWarning',
+            'handleDeleteCheckChange',
+            'handleDeleteSelected'
         );
 
         _this.initializeConstants();
@@ -32,6 +39,8 @@ multiTab.UpdateUrlView = Backbone.View.extend({
         _this.URL_TABLE = "tbl_url";
         _this.SHOW_IF_EMPTY_SELECTOR = '.show-if-empty';
         _this.HIDE_IF_EMPTY_SELECTOR = '.hide-if-empty';
+        _this.CHECKED_DELETE_CHECKBOXES_SELECTOR = 'input[name=to-delete]:checked';
+        _this.DELETE_SELECTED_BUTTON_SELECTOR = '#delete-selected-button';
     },
 
     appendDbData: function() {
@@ -91,5 +100,25 @@ multiTab.UpdateUrlView = Backbone.View.extend({
             $rowEl = $(_this._COMPILED_TEMPLATE(row)).hide();
         
         $rowEl.appendTo($tbodyEl).slideDown('fast');
+    },
+
+    handleDeleteCheckChange: function(event) {
+        var _this = this;
+        
+        if (_this.$el.find(_this.CHECKED_DELETE_CHECKBOXES_SELECTOR).length > 0) {
+            _this.$el.find(_this.DELETE_SELECTED_BUTTON_SELECTOR).removeAttr('disabled');
+        }
+        else {
+            _this.$el.find(_this.DELETE_SELECTED_BUTTON_SELECTOR).attr('disabled', 'true');
+        }
+    },
+
+    handleDeleteSelected: function(event) {
+        var _this = this,
+            $rows = _this.$el.find(_this.CHECKED_DELETE_CHECKBOXES_SELECTOR).closest('tr');
+
+        $rows.remove();
+        event.target.blur();
+        _this.$el.find(_this.DELETE_SELECTED_BUTTON_SELECTOR).attr('disabled', 'true');
     }
 });
