@@ -18,7 +18,6 @@ multiTab.UpdateUrlView = Backbone.View.extend({
     render: function() {
         var _this = this;
 
-        //alert(_this.$el.find('h3').text());
         _this.appendDbData();
     },
 
@@ -35,9 +34,6 @@ multiTab.UpdateUrlView = Backbone.View.extend({
         _this.HIDE_IF_EMPTY_SELECTOR = '.hide-if-empty';
     },
 
-    /**
-     * @return the number of records appended
-     */
     appendDbData: function() {
         var _this = this,
             request = indexedDB.open(_this.LOCAL_DB, _this.DB_VERSION);
@@ -60,6 +56,7 @@ multiTab.UpdateUrlView = Backbone.View.extend({
 
             cursor.onsuccess = function(event) {
                 var res = event.target.result;
+
                 if (res) {
                     rows.push(res.value);
                     res.continue();
@@ -79,7 +76,6 @@ multiTab.UpdateUrlView = Backbone.View.extend({
                 }
             };
             db.close();
-            console.log('on the path to success! but nothing appended');
         };
     },
 
@@ -87,5 +83,13 @@ multiTab.UpdateUrlView = Backbone.View.extend({
         var _this = this;
 
         $(_this.SHOW_IF_EMPTY_SELECTOR).slideDown('fast');
+    },
+
+    appendRow: function(row) {
+        var _this = this,
+            $tbodyEl = _this.$el.find(_this.TABLE_BODY_SELECTOR),
+            $rowEl = $(_this._COMPILED_TEMPLATE(row)).hide();
+        
+        $rowEl.appendTo($tbodyEl).slideDown('fast');
     }
 });

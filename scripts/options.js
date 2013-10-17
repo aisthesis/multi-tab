@@ -1,2 +1,5 @@
-var insertUrlView = new multiTab.InsertUrlView( {el: $('#insert-url')} ),
-    updateUrlView = new multiTab.UpdateUrlView( {el: $('#update-and-delete-urls')} );
+var updateUrlView = new multiTab.UpdateUrlView( {el: $('#update-and-delete-urls')} ),
+    insertUrlView = new multiTab.InsertUrlView({
+        el: $('#insert-url'),
+        updateView: updateUrlView
+    });
