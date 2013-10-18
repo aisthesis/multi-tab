@@ -15,7 +15,8 @@ multiTab.UpdateUrlView = Backbone.View.extend({
             'appendDbData',
             'showEmptyDbWarning',
             'handleDeleteCheckChange',
-            'handleDeleteSelected'
+            'handleDeleteSelected',
+            'deleteFromDb'
         );
 
         _this.initializeConstants();
@@ -97,9 +98,18 @@ multiTab.UpdateUrlView = Backbone.View.extend({
     appendRow: function(row) {
         var _this = this,
             $tbodyEl = _this.$el.find(_this.TABLE_BODY_SELECTOR),
-            $rowEl = $(_this._COMPILED_TEMPLATE(row)).hide();
+            $rowEl = $(_this._COMPILED_TEMPLATE(row)).hide(),
+            $hideIfEmptyElements = _this.$el.find(_this.HIDE_IF_EMPTY_SELECTOR);
         
-        $rowEl.appendTo($tbodyEl).slideDown('fast');
+        if (!$hideIfEmptyElements.is(':visible')) {
+            _this.$el.find(_this.SHOW_IF_EMPTY_SELECTOR).hide('fast');
+            $hideIfEmptyElements.show('fast');
+            $tbodyEl.append($rowEl.show());
+            $tbodyEl.slideDown('fast');
+        }
+        else {
+            $rowEl.appendTo($tbodyEl).slideDown('fast');
+        }
     },
 
     handleDeleteCheckChange: function(event) {
@@ -115,10 +125,48 @@ multiTab.UpdateUrlView = Backbone.View.extend({
 
     handleDeleteSelected: function(event) {
         var _this = this,
-            $rows = _this.$el.find(_this.CHECKED_DELETE_CHECKBOXES_SELECTOR).closest('tr');
+            $rows = _this.$el.find(_this.CHECKED_DELETE_CHECKBOXES_SELECTOR).closest('tr'),
+            keysToDelete = [];
 
-        $rows.remove();
-        event.target.blur();
-        _this.$el.find(_this.DELETE_SELECTED_BUTTON_SELECTOR).attr('disabled', 'true');
+        $rows.each(function() {
+            keysToDelete.push(parseInt($(this).attr('data-order'), 10));
+        });
+        _this.deleteFromDb(keysToDelete, function() {
+            $rows.remove();
+            event.target.blur();
+            _this.$el.find(_this.DELETE_SELECTED_BUTTON_SELECTOR).attr('disabled', 'true');
+            if (_this.$el.find(_this.TABLE_BODY_SELECTOR).find('tr').length === 0) {
+                _this.$el.find(_this.HIDE_IF_EMPTY_SELECTOR).slideUp('fast', function() {
+                    _this.$el.find(_this.SHOW_IF_EMPTY_SELECTOR).slideDown('fast');
+                });
+            }
+        });
+    },
+
+    deleteFromDb: function(keys, callback) {
+        var _this = this,
+            request = indexedDB.open(_this.LOCAL_DB, _this.DB_VERSION);
+
+        request.onsuccess = function(event) {
+            var db = event.target.result,
+                tx = db.transaction([_this.URL_TABLE], "readwrite"),
+                store = tx.objectStore(_this.URL_TABLE),
+                recursiveDelete;
+
+            recursiveDelete = function(_index) {
+                var deleteRequest;
+
+                // base case
+                if (_index >= keys.length) {
+                    callback();
+                    return;
+                }
+                deleteRequest = store.delete(keys[_index]);
+                deleteRequest.onsuccess = function(event) {
+                    recursiveDelete(_index + 1);
+                }
+            }
+            recursiveDelete(0);
+        }
     }
 });
