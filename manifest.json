@@ -1,19 +1,19 @@
 {
     "name": "Multi-tab",
 
-    "description": "Open multiple URLs with one click",
+    "description": "Open multiple URLs with one click!",
 
     "manifest_version": 2,
 
     "version": "0.1",
 
     "browser_action": {
-        "default_icon": "multi-tab-16.png"
+        "default_icon": "images/multi-tab-16.png"
     },
 
     "icons": {
-        "16": "multi-tab-16.png",
-        "128": "multi-tab-128.png"
+        "16": "images/multi-tab-16.png",
+        "128": "images/multi-tab-128-blue.png"
     },
 
     "permissions": ["tabs"],
