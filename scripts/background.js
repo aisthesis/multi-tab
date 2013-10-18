@@ -1,14 +1,38 @@
-var prefix = 'http://finance.yahoo.com/echarts?s=',
-    middle = '+Interactive#symbol=',
-    suffix = ';range=1y;compare=;indicator=sma+volume+rsi;charttype=ohlc;crosshair=cross;' + 
-           'ohlcvalues=1;logscale=on;source=undefined;',
-    stocks = ['spwr', 'cree', 'eog', 'ddd', 'irbt', 'fslr', 'f', 'ge', 'jnj', 't', 'intc', 'cat'];
-
 chrome.browserAction.onClicked.addListener(function() {
-    var _url;
+    var _urls = [],
+        request = indexedDB.open("multi_tab", 1);
 
-    for (var i = 0; i < stocks.length; i++) {
-        _url = prefix + stocks[i] + middle + stocks[i] + suffix;
-        chrome.tabs.create({url: _url});
+    request.onerror = function(event) {
+        console.log("Error opening database");
+    };
+
+    request.onupgradeneeded = function(event) {
+        console.log('Database version is not current');
+    };
+
+    request.onsuccess = function(event) {
+        var _urls = [],
+            db = event.target.result,
+            tx = db.transaction(["tbl_url"], "readonly"),
+            os = tx.objectStore("tbl_url"),
+            cursor = os.openCursor();
+
+        cursor.onsuccess = function(event) {
+            var res = event.target.result;
+
+            if (res) {
+                _urls.push(res.value.url);
+                res.continue();
+            }
+            else {
+                if (_urls.length === 0) {
+                    chrome.tabs.create({url: 'chrome-extension://obcbjcogdoelmafggekmkghajjgmcfnc/options.html'});
+                    return; 
+                }
+                for (var i = 0; i < _urls.length; i++) {
+                    chrome.tabs.create({url: _urls[i]});
+                }
+            }
+        }
     }
 });

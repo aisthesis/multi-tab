@@ -44,6 +44,7 @@ multiTab.InsertUrlView = Backbone.View.extend({
 
         if (description.length === 0 || url.length === 0) {
             alert("Both description and URL are required inputs!");
+            event.target.blur();
             return;
         }
         _this.saveToDb(description, url);
