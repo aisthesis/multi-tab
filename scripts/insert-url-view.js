@@ -2,7 +2,8 @@ var multiTab = multiTab || {};
 
 multiTab.InsertUrlView = Backbone.View.extend({
     events: {
-        "click #save-url-button": "handleSave"
+        "click #save-url-button": "handleSave",
+        "keyup input": "handleInputChange"
     },
 
     initialize: function(options) {
@@ -12,6 +13,7 @@ multiTab.InsertUrlView = Backbone.View.extend({
             'render',
             'initializeConstants',
             'handleSave',
+            'handleInputChange',
             'saveToDb'
         );
         
@@ -32,6 +34,7 @@ multiTab.InsertUrlView = Backbone.View.extend({
         _this.UPDATE_VIEW = options.updateView;
         _this.DESCRIPTION_INPUT_SELECTOR = '#description-input';
         _this.URL_INPUT_SELECTOR = '#url-input';
+        _this.SAVE_BUTTON_SELECTOR = '#save-url-button';
         _this.LOCAL_DB = "multi_tab";
         _this.DB_VERSION = 1;
         _this.URL_TABLE = "tbl_url";
@@ -43,7 +46,6 @@ multiTab.InsertUrlView = Backbone.View.extend({
             url = _this.$el.find(_this.URL_INPUT_SELECTOR).val().trim();
 
         if (description.length === 0 || url.length === 0) {
-            alert("Both description and URL are required inputs!");
             event.target.blur();
             return;
         }
@@ -51,6 +53,20 @@ multiTab.InsertUrlView = Backbone.View.extend({
         _this.$el.find(_this.DESCRIPTION_INPUT_SELECTOR).val('');
         _this.$el.find(_this.URL_INPUT_SELECTOR).val('');
         event.target.blur();
+        _this.$el.find(_this.SAVE_BUTTON_SELECTOR).attr('disabled', true);
+    },
+
+    handleInputChange: function(event) {
+        var _this = this,
+            description = _this.$el.find(_this.DESCRIPTION_INPUT_SELECTOR).val().trim(),
+            url = _this.$el.find(_this.URL_INPUT_SELECTOR).val().trim();
+
+        if (description.length === 0 || url.length === 0) {
+            _this.$el.find(_this.SAVE_BUTTON_SELECTOR).attr('disabled', true);
+        }
+        else {
+            _this.$el.find(_this.SAVE_BUTTON_SELECTOR).removeAttr('disabled');
+        }
     },
 
     saveToDb: function(_description, _url) {
