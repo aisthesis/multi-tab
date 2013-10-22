@@ -38,6 +38,7 @@ multiTab.InsertUrlView = Backbone.View.extend({
         _this.LOCAL_DB = "multi_tab";
         _this.DB_VERSION = 2;
         _this.URL_TABLE = "tbl_url";
+        _this.ORDER_INDEX = "order";
     },
 
     handleSave: function(event) {
@@ -81,10 +82,9 @@ multiTab.InsertUrlView = Backbone.View.extend({
             var db = event.target.result,
                 store;
 
-            console.log('Upgrade invoked from insert-view');
             db.deleteObjectStore(_this.URL_TABLE);
             store = db.createObjectStore(_this.URL_TABLE, {autoIncrement: true});
-            store.createIndex("order", "order", { unique: true });
+            store.createIndex(_this.ORDER_INDEX, "order", { unique: true });
             db.close();
         };
 
@@ -92,21 +92,26 @@ multiTab.InsertUrlView = Backbone.View.extend({
             var db = event.target.result,
                 tx = db.transaction([_this.URL_TABLE], "readwrite"),
                 store = tx.objectStore(_this.URL_TABLE),
+                index = store.index(_this.ORDER_INDEX);
                 // iterate in descending order
-                cursor = store.openCursor(null, "prev"),
+                cursor = index.openCursor(null, "prev"),
                 _order = 0,
-                row;
+                row = {};
 
             cursor.onsuccess = function(event) {
-                var res = event.target.result;
+                var res = event.target.result,
+                    addRequest;
 
                 if (res) {
                     _order = res.key + 1;
                 }
                 row = {order: _order, description: _description, url: _url};
-                store.put(row);
-                console.log('record save with order ' + _order);
-                _this.UPDATE_VIEW.appendRow(row);
+                addRequest = store.add(row);
+                addRequest.onsuccess = function(event) {
+                    row.id = event.target.result;
+                    console.log('record saved with order ' + _order + ' and key ' + row.id);
+                    _this.UPDATE_VIEW.appendRow(row);
+                }
             }
             db.close();
         };

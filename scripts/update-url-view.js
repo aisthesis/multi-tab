@@ -38,6 +38,7 @@ multiTab.UpdateUrlView = Backbone.View.extend({
         _this.LOCAL_DB = "multi_tab";
         _this.DB_VERSION = 2;
         _this.URL_TABLE = "tbl_url";
+        _this.ORDER_INDEX = "order";
         _this.SHOW_IF_EMPTY_SELECTOR = '.show-if-empty';
         _this.HIDE_IF_EMPTY_SELECTOR = '.hide-if-empty';
         _this.CHECKED_DELETE_CHECKBOXES_SELECTOR = 'input[name=to-delete]:checked';
@@ -56,10 +57,9 @@ multiTab.UpdateUrlView = Backbone.View.extend({
             var db = event.target.result,
                 store;
             
-            console.log('Upgrade invoked from update-view');
             db.deleteObjectStore(_this.URL_TABLE);
             store = db.createObjectStore(_this.URL_TABLE, { autoIncrement: true });
-            store.createIndex("order", "order", { unique: true });
+            store.createIndex(_this.ORDER_INDEX, "order", { unique: true });
             db.close();
         };
 
@@ -68,14 +68,20 @@ multiTab.UpdateUrlView = Backbone.View.extend({
                 db = event.target.result,
                 tx = db.transaction([_this.URL_TABLE], "readonly"),
                 os = tx.objectStore(_this.URL_TABLE),
-                cursor = os.openCursor(),
+                index = os.index(_this.ORDER_INDEX),
+                cursor = index.openCursor(),
                 $tbodyEl;
 
             cursor.onsuccess = function(event) {
                 var res = event.target.result;
 
                 if (res) {
-                    rows.push(res.value);
+                    rows.push({
+                        id: res.primaryKey,
+                        order: res.value.order,
+                        description: res.value.description,
+                        url: res.value.url
+                    });
                     res.continue();
                 }
                 else {
@@ -84,7 +90,7 @@ multiTab.UpdateUrlView = Backbone.View.extend({
                     }
                     else {
                         $tbodyEl = _this.$el.find(_this.TABLE_BODY_SELECTOR);
-                        _.sortBy(rows, function(row) { return row.order; });
+                        //_.sortBy(rows, function(row) { return row.order; });
                         for (var i = 0; i < rows.length; i++) {
                             $tbodyEl.append($(_this._COMPILED_TEMPLATE(rows[i])));
                         }
