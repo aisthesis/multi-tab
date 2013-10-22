@@ -36,7 +36,7 @@ multiTab.InsertUrlView = Backbone.View.extend({
         _this.URL_INPUT_SELECTOR = '#url-input';
         _this.SAVE_BUTTON_SELECTOR = '#save-url-button';
         _this.LOCAL_DB = "multi_tab";
-        _this.DB_VERSION = 1;
+        _this.DB_VERSION = 2;
         _this.URL_TABLE = "tbl_url";
     },
 
@@ -79,8 +79,12 @@ multiTab.InsertUrlView = Backbone.View.extend({
 
         request.onupgradeneeded = function(event) {
             var db = event.target.result,
-                store = db.createObjectStore(_this.URL_TABLE, {keyPath: "order"});
+                store;
 
+            console.log('Upgrade invoked from insert-view');
+            db.deleteObjectStore(_this.URL_TABLE);
+            store = db.createObjectStore(_this.URL_TABLE, {autoIncrement: true});
+            store.createIndex("order", "order", { unique: true });
             db.close();
         };
 

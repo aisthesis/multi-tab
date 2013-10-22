@@ -36,7 +36,7 @@ multiTab.UpdateUrlView = Backbone.View.extend({
         _this._COMPILED_TEMPLATE = _.template($(_this.TEMPLATE_SELECTOR).html());
         _this.TABLE_BODY_SELECTOR = '#url-tbody';
         _this.LOCAL_DB = "multi_tab";
-        _this.DB_VERSION = 1;
+        _this.DB_VERSION = 2;
         _this.URL_TABLE = "tbl_url";
         _this.SHOW_IF_EMPTY_SELECTOR = '.show-if-empty';
         _this.HIDE_IF_EMPTY_SELECTOR = '.hide-if-empty';
@@ -53,7 +53,14 @@ multiTab.UpdateUrlView = Backbone.View.extend({
         };
 
         request.onupgradeneeded = function(event) {
-            console.log('upgrade needed for append action');
+            var db = event.target.result,
+                store;
+            
+            console.log('Upgrade invoked from update-view');
+            db.deleteObjectStore(_this.URL_TABLE);
+            store = db.createObjectStore(_this.URL_TABLE, { autoIncrement: true });
+            store.createIndex("order", "order", { unique: true });
+            db.close();
         };
 
         request.onsuccess = function(event) {
