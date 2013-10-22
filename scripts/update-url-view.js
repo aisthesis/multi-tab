@@ -142,7 +142,7 @@ multiTab.UpdateUrlView = Backbone.View.extend({
             keysToDelete = [];
 
         $rows.each(function() {
-            keysToDelete.push(parseInt($(this).attr('data-order'), 10));
+            keysToDelete.push(parseInt($(this).attr('data-id'), 10));
         });
         _this.deleteFromDb(keysToDelete, function() {
             $rows.remove();
