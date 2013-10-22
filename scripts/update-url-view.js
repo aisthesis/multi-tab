@@ -19,7 +19,7 @@ multiTab.UpdateUrlView = Backbone.View.extend({
             'deleteFromDb'
         );
 
-        _this.initializeConstants();
+        _this.initializeConstants(options);
         _this.render();
     },
 
@@ -29,14 +29,14 @@ multiTab.UpdateUrlView = Backbone.View.extend({
         _this.appendDbData();
     },
 
-    initializeConstants: function() {
+    initializeConstants: function(options) {
         var _this = this;
 
         _this.TEMPLATE_SELECTOR = '#url-record-template';
         _this._COMPILED_TEMPLATE = _.template($(_this.TEMPLATE_SELECTOR).html());
         _this.TABLE_BODY_SELECTOR = '#url-tbody';
         _this.LOCAL_DB = "multi_tab";
-        _this.DB_VERSION = 2;
+        _this.DB_VERSION = options.dbVersion;
         _this.URL_TABLE = "tbl_url";
         _this.ORDER_INDEX = "order";
         _this.SHOW_IF_EMPTY_SELECTOR = '.show-if-empty';

@@ -36,7 +36,7 @@ multiTab.InsertUrlView = Backbone.View.extend({
         _this.URL_INPUT_SELECTOR = '#url-input';
         _this.SAVE_BUTTON_SELECTOR = '#save-url-button';
         _this.LOCAL_DB = "multi_tab";
-        _this.DB_VERSION = 2;
+        _this.DB_VERSION = options.dbVersion;
         _this.URL_TABLE = "tbl_url";
         _this.ORDER_INDEX = "order";
     },

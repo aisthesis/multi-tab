@@ -1,7 +1,12 @@
-var updateUrlView = new multiTab.UpdateUrlView( {el: $('#update-and-delete-urls')} ),
+var indexedDbVersion = 2,
+    updateUrlView = new multiTab.UpdateUrlView({
+        el: $('#update-and-delete-urls'),
+        dbVersion: indexedDbVersion
+    }),
     insertUrlView = new multiTab.InsertUrlView({
         el: $('#insert-url'),
-        updateView: updateUrlView
+        updateView: updateUrlView,
+        dbVersion: indexedDbVersion
     }),
     updateIndices = function(e0, ui) {
         // disable further sorting until event has been processed
@@ -10,7 +15,7 @@ var updateUrlView = new multiTab.UpdateUrlView( {el: $('#update-and-delete-urls'
         var movedOrderVal = parseInt($(ui.item.context).attr('data-order'), 10),
             $tblRows = $('#url-tbody').children('tr'),
             maxOrderVal = parseInt($tblRows.last().attr('data-order'), 10),
-            openDbRequest = indexedDB.open("multi_tab", 1);
+            openDbRequest = indexedDB.open("multi_tab", indexedDbVersion);
 
         openDbRequest.onsuccess = function(e1) {
             /**
