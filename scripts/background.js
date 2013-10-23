@@ -1,21 +1,31 @@
 chrome.browserAction.onClicked.addListener(function() {
     var _urls = [],
-        request = indexedDB.open("multi_tab", 2);
+        dbName = "multi_tab",
+        dbVersion = 2,
+        tblName = "tbl_url",
+        tblOrderIndex = "order",
+        request = indexedDB.open(dbName, dbVersion);
 
     request.onerror = function(event) {
         console.log("Error opening database");
     };
 
     request.onupgradeneeded = function(event) {
-        console.log('Database version is not current');
+        var db = event.target.result,
+            store;
+        
+        db.deleteObjectStore(tblName);
+        store = db.createObjectStore(tblName, { autoIncrement: true });
+        store.createIndex(tblOrderIndex, "order", { unique: true });
+        db.close();
     };
 
     request.onsuccess = function(event) {
         var _urls = [],
             db = event.target.result,
-            tx = db.transaction(["tbl_url"], "readonly"),
-            os = tx.objectStore("tbl_url"),
-            index = os.index("order"),
+            tx = db.transaction([tblName], "readonly"),
+            os = tx.objectStore(tblName),
+            index = os.index(tblOrderIndex),
             cursor = index.openCursor();
 
         cursor.onsuccess = function(event) {
@@ -27,13 +37,14 @@ chrome.browserAction.onClicked.addListener(function() {
             }
             else {
                 if (_urls.length === 0) {
-                    chrome.tabs.create({url: 'chrome-extension://obcbjcogdoelmafggekmkghajjgmcfnc/options.html'});
+                    chrome.tabs.create({url: 'options.html'});
                     return; 
                 }
                 for (var i = 0; i < _urls.length; i++) {
                     chrome.tabs.create({url: _urls[i]});
                 }
             }
-        }
-    }
+            db.close();
+        };
+    };
 });
