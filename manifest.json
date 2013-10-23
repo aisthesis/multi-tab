@@ -1,7 +1,7 @@
 {
     "name": "Multi-tab",
 
-    "description": "Open multiple URLs with one click! After entering a list of URLs, open them by clicking on the multi-tab icon.", 
+    "description": "Open multiple URLs with one click!",
 
     "manifest_version": 2,
 
