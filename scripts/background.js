@@ -1,6 +1,6 @@
 chrome.browserAction.onClicked.addListener(function() {
     var _urls = [],
-        request = indexedDB.open("multi_tab", 1);
+        request = indexedDB.open("multi_tab", 2);
 
     request.onerror = function(event) {
         console.log("Error opening database");
@@ -15,7 +15,8 @@ chrome.browserAction.onClicked.addListener(function() {
             db = event.target.result,
             tx = db.transaction(["tbl_url"], "readonly"),
             os = tx.objectStore("tbl_url"),
-            cursor = os.openCursor();
+            index = os.index("order"),
+            cursor = index.openCursor();
 
         cursor.onsuccess = function(event) {
             var res = event.target.result;
