@@ -14,7 +14,6 @@ chrome.browserAction.onClicked.addListener(function() {
         var db = event.target.result,
             store;
         
-        db.deleteObjectStore(tblName);
         store = db.createObjectStore(tblName, { autoIncrement: true });
         store.createIndex(tblOrderIndex, "order", { unique: true });
         db.close();

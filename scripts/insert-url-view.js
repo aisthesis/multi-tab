@@ -82,7 +82,6 @@ multiTab.InsertUrlView = Backbone.View.extend({
             var db = event.target.result,
                 store;
 
-            db.deleteObjectStore(_this.URL_TABLE);
             store = db.createObjectStore(_this.URL_TABLE, {autoIncrement: true});
             store.createIndex(_this.ORDER_INDEX, "order", { unique: true });
             db.close();
