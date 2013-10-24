@@ -44,13 +44,15 @@ multiTab.InsertUrlView = Backbone.View.extend({
     handleSave: function(event) {
         var _this = this,
             description = _this.$el.find(_this.DESCRIPTION_INPUT_SELECTOR).val().trim(),
-            url = _this.$el.find(_this.URL_INPUT_SELECTOR).val().trim();
+            url = _this.$el.find(_this.URL_INPUT_SELECTOR).val().trim(),
+            protocolSeparatorIndex;
 
         if (description.length === 0 || url.length === 0) {
             event.target.blur();
             return;
         }
-        if (url.indexOf('://') < 16) {
+        protocolSeparatorIndex = url.indexOf('://');
+        if (protocolSeparatorIndex < 0 || 16 < protocolSeparatorIndex) {
             url = 'http://' + url;
         }
         _this.saveToDb(description, url);

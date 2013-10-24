@@ -5,7 +5,7 @@
 
     "manifest_version": 2,
 
-    "version": "0.5",
+    "version": "0.6",
 
     "browser_action": {
         "default_icon": "images/multi-tab-16.png"
