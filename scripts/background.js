@@ -17,6 +17,7 @@ chrome.browserAction.onClicked.addListener(function() {
         store = db.createObjectStore(tblName, { autoIncrement: true });
         store.createIndex(tblOrderIndex, "order", { unique: true });
         db.close();
+        chrome.tabs.create({url: 'options.html'});
     };
 
     request.onsuccess = function(event) {
