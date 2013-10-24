@@ -50,6 +50,9 @@ multiTab.InsertUrlView = Backbone.View.extend({
             event.target.blur();
             return;
         }
+        if (url.indexOf('://') < 16) {
+            url = 'http://' + url;
+        }
         _this.saveToDb(description, url);
         _this.$el.find(_this.DESCRIPTION_INPUT_SELECTOR).val('');
         _this.$el.find(_this.URL_INPUT_SELECTOR).val('');
