@@ -53,6 +53,7 @@ multiTab.UpdateUrlView = Backbone.View.extend({
             request = indexedDB.open(_this.LOCAL_DB, _this.DB_VERSION);
 
         request.onerror = function(event) {
+            $(_this.SHOW_IF_EMPTY_SELECTOR).slideDown('fast');
             console.log("Error getting data to append");
         };
 
